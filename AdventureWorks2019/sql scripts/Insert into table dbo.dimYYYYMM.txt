@@ -1,0 +1,23 @@
+INSERT INTO [dbo].[dimYYYYMM]
+(DimYYYYMM,year,month)
+SELECT distinct 
+ltrim(rtrim(year(orderdate)))+'-'+ltrim(rtrim(month(orderdate))) 
+,ltrim(rtrim(year(orderdate)))
+,ltrim(rtrim(month(orderdate))) 
+from
+
+(
+select 
+detail.*
+,header.CustomerID
+,header.OrderDate
+,header.SalesPersonID
+,header.TaxAmt
+,header.TotalDue
+,header.SubTotal 
+,header.onlineorderflag
+,ltrim(rtrim(year(header.orderdate)))+'-'+ltrim(rtrim(month(header.orderdate))) orderYYYYMM
+from
+sales.SalesOrderDetail detail
+inner join sales.SalesOrderHeader header on detail.SalesOrderID=header.SalesOrderID
+)DATA

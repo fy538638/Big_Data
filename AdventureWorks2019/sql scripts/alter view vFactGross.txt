@@ -1,0 +1,32 @@
+USE [AdventureWorks2019]
+GO
+
+/****** Object:  View [dbo].[vFactGross]    Script Date: 2/28/2023 5:28:52 AM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+
+
+
+
+CREATE view [dbo].[vFactGross] as 
+select 
+detail.*
+, header.CustomerID
+,header.OrderDate
+,header.SalesPersonID
+,header.TaxAmt
+,header.TotalDue
+,header.SubTotal
+,header.onlineorderflag
+,ltrim(rtrim(year(header.orderdate)))+'-'+ltrim(rtrim(month(header.orderdate))) orderYYYYMM
+,header.TerritoryID
+,header.BillToAddressID
+,header.ShipToAddressID
+from Sales.SalesOrderDetail detail
+inner join Sales.SalesOrderHeader header on detail.SalesOrderID=header.SalesOrderID
+GO
